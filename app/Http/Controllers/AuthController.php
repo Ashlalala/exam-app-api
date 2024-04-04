@@ -67,4 +67,15 @@ class AuthController extends Controller
             'message' => 'Logged out',
         ];
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function show(User $user)
+    {
+        return $user;
+    }
 }

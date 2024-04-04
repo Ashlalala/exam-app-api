@@ -17,8 +17,8 @@ class CreateExamsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->string('name');
-            $table->string('description')->nullable();
-            $table->string('category')->constrained('cats');  
+            $table->string('description')->nullable();   // change to longText
+            $table->string('category')->constrained('cats');
             $table->string('sub_category')->constrained('sub_cats');
             $table->timestamps();
         });

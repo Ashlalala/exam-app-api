@@ -13,11 +13,19 @@ class ExamController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param string $category
+     * @param string $subCategory
+     *
+     *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($category, $subCategory)
     {
-        return new ExamCollection(Exam::all());
+        return new ExamCollection(
+            Exam::where('category', '=', $category)
+                ->where('sub_category', '=', $subCategory)
+                ->get()
+        );
     }
 
     /**
@@ -33,22 +41,28 @@ class ExamController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param string $category
+     * @param string $subCategory
+     *
      * @param  \App\Http\Requests\StoreExamRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreExamRequest $request)
+    public function store(StoreExamRequest $request, $category, $subCategory)
     {
         $request->validate([
             'user_id' => 'nullable|max:100', //change
             'name' => 'required|max:100',
             'description' => 'nullable|max:500',
-            'category' => 'required|max:100',
-            'sub_category' => 'required|max:100',
         ]);
 
-        // $requestData = $request->all();
+        $requestData = $request->all();
         // $requestData userId auth sanctum merge ........
-        return Exam::create($request->all());
+
+        $requestData['category'] = $category;
+        $requestData['sub_category'] = $subCategory;
+
+
+        return Exam::create($requestData);
     }
 
 

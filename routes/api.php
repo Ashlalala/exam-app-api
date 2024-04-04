@@ -24,22 +24,29 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/user/{user}', [AuthController::class, 'show']);
+
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 
-Route::get('/cats', [CatController::class, 'index']);
-Route::post('/cats', [CatController::class, 'store']);
+Route::get('exams/cats', [CatController::class, 'index']);
+Route::post('exams/cats', [CatController::class, 'store']);
 
-Route::get('{category}', [SubCatController::class, 'index']);
-Route::post('{category}', [SubCatController::class, 'store']);
+
+Route::get('/exams/{category}', [SubCatController::class, 'index']);
+Route::post('/exams/{category}', [SubCatController::class, 'store']);
 
 
 //change to ApiResource
-Route::get('/exams', [ExamController::class, 'index']);
-Route::post('/exams', [ExamController::class, 'store']);
+Route::get('/exams/{category}/{subCategory}', [ExamController::class, 'index']);
+Route::post('/exams/{category}/{subCategory}', [ExamController::class, 'store']);
 
 
+Route::get('/exam/{exam}', [ExamController::class, 'show']);
 
-Route::post('/qa', [QAController::class, 'store']);
+
+Route::get('/exam/{examId}/qa', [QAController::class, 'index']);
+Route::post('/exam/{examId}/qa', [QAController::class, 'store']);
+

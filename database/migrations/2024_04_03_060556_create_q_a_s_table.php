@@ -16,7 +16,7 @@ class CreateQASTable extends Migration
         Schema::create('q_a_s', function (Blueprint $table) {
             $table->id();
             $table->foreignId('exam_id')->constrained('exams');
-            $table->string('type'); //'full', 'part'
+            $table->string('type')->default('full'); //'full', 'part'
             $table->longText('question');
             $table->longText('ans_r');
             $table->longText('ans_w_1')->nullable();

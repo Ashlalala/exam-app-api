@@ -11,11 +11,13 @@ class SubCatController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param string $category
+     *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($category)
     {
-        return SubCat::all();
+        return SubCat::where('parent_cat', '=', $category)->get();
     }
 
     /**

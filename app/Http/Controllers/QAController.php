@@ -13,11 +13,14 @@ class QAController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param int $examId
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($examId)
     {
-        return new QACollection(QA::all());
+        return new QACollection(
+            QA::where('exam_id', '=', $examId)->latest()->get()
+        );
     }
 
     /**
@@ -33,15 +36,18 @@ class QAController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     *
      * @param  \App\Http\Requests\StoreQARequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreQARequest $request)
     {
+
         $request->validate([
             'exam_id' => 'nullable', //change this to required
             'question' => 'required|max:465',
             'ans_r' => 'required|max:455',
+            'type' => 'required|max:455',
             'ans_w_1' => 'nullable|max:455',
             'ans_w_2' => 'nullable|max:455',
             'ans_w_3' => 'nullable|max:455',
