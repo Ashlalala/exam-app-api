@@ -19,10 +19,11 @@ class CreateQASTable extends Migration
             $table->string('type')->default('full'); //'full', 'part'
             $table->longText('question');
             $table->longText('ans_r');
-            $table->longText('ans_w_1')->nullable();
-            $table->longText('ans_w_2')->nullable();
-            $table->longText('ans_w_3')->nullable();
-            $table->longText('ans_w_4')->nullable();
+            $table->longText('ans_1')->nullable();
+            $table->longText('ans_2')->nullable();
+            $table->longText('ans_3')->nullable();
+            $table->longText('ans_4')->nullable();
+            $table->longText('ans_5')->nullable();
             $table->timestamps();
         });
     }

@@ -48,10 +48,11 @@ class QAController extends Controller
             'question' => 'required|max:465',
             'ans_r' => 'required|max:455',
             'type' => 'required|max:455',
-            'ans_w_1' => 'nullable|max:455',
-            'ans_w_2' => 'nullable|max:455',
-            'ans_w_3' => 'nullable|max:455',
-            'ans_w_4' => 'nullable|max:455',
+            'ans_1' => 'nullable|max:455',
+            'ans_2' => 'nullable|max:455',
+            'ans_3' => 'nullable|max:455',
+            'ans_4' => 'nullable|max:455',
+            'ans_5' => 'nullable|max:455',
         ]);
 
         return QA::create($request->all());

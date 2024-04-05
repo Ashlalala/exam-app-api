@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateExamsTable extends Migration
+class CreateCompletedExamsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateExamsTable extends Migration
      */
     public function up()
     {
-        Schema::create('exams', function (Blueprint $table) {
+        Schema::create('completed_exams', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->string('name');
-            $table->longText('description')->nullable();
-            $table->string('category')->constrained('cats');
-            $table->string('sub_category')->constrained('sub_cats');
+            $table->foreignId('exam_id')->constrained('exams');
+            $table->decimal('score', 3, 2)->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateExamsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('exams');
+        Schema::dropIfExists('completed_exams');
     }
 }
