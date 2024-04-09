@@ -14,4 +14,8 @@ class Exam extends Model
     public function qas(){
         return $this->hasMany(QA::class);
     }
+
+    public function qagroups(){
+        return $this->hasMany(QAGroup::class);
+    }
 }

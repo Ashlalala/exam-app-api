@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class QA extends Model
+class QAGroup extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -15,7 +15,7 @@ class QA extends Model
     public function exam(){
         return $this->belongsTo(Exam::class);
     }
-    public function qagroup(){
-        return $this->belongsTo(QAGroup::class);
+    public function qas(){
+        return $this->hasMany(QA::class);
     }
 }

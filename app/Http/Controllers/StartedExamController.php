@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\StartedExam;
 use App\Http\Requests\StoreStartedExamRequest;
 use App\Http\Requests\UpdateStartedExamRequest;
+use App\Http\Resources\ExamCollection;
+use App\Http\Resources\ExamResource;
+use App\Models\AnsweredGroup;
 use App\Models\AnsweredQuestion;
+use App\Models\Exam;
 
 class StartedExamController extends Controller
 {
@@ -16,7 +20,17 @@ class StartedExamController extends Controller
      */
     public function index()
     {
-        //
+        $comleted = new ExamCollection(StartedExam::where('user_id', '=', 1)->where('completed', '=', true)->latest()->get());
+
+        $all = [];
+        foreach($comleted as $examComp) {
+            $new = [
+                'exam' => Exam::where('id', '=', $examComp->exam_id)->first(),
+                'examCompleted' => $examComp
+            ];
+            array_push($all, $new);
+        }
+        return $all;
     }
 
     /**
@@ -79,7 +93,7 @@ class StartedExamController extends Controller
      *
      * @param  \App\Http\Requests\UpdateStartedExamRequest  $request
      * @param int $examId
-     * @param  int  $startedExam
+     * @param  int  $startedExamId
      * @param string $completed
      * @return \Illuminate\Http\Response
      */
@@ -92,12 +106,25 @@ class StartedExamController extends Controller
         $requestData['completed'] = true;
 
 
+        $allFullQAs = AnsweredQuestion::where('type', '=', 'full');
 
-        $allQAs = AnsweredQuestion::where('started_exam_id', '=', $startedExamId)->get();
-        $correctQAs = AnsweredQuestion::where('started_exam_id', '=', $startedExamId)->where('correct', '=', true)->get();
-        $requestData['score'] = round(count($correctQAs) / count($allQAs), 2);
+        $allQAs = $allFullQAs->where('started_exam_id', '=', $startedExamId)->get();
+        $correctQAs = $allFullQAs->where('started_exam_id', '=', $startedExamId)->where('correct', '=', true)->get();
 
+        $allQAsL = count($allQAs);
+        $correctQAsL = count($correctQAs);
 
+        $allGroups = AnsweredGroup::where('started_exam_id', '=', $startedExamId)->get();
+
+        $groupsCombinedScore = 0;
+        foreach($allGroups as $group){
+            $groupsCombinedScore = $groupsCombinedScore + $group->score;
+        }
+
+        $allQAsL = $allQAsL + count($allGroups);
+        $correctQAsL = $correctQAsL + $groupsCombinedScore;
+
+        if(count($allQAs)) $requestData['score'] = round($correctQAsL / $allQAsL, 2);
 
         $startedExam = StartedExam::find($startedExamId);
         $startedExam->update($requestData);

@@ -12,7 +12,7 @@ class QAResource extends JsonResource
         $cryptText = openssl_encrypt($data,"aes-256-cbc",$key ,OPENSSL_RAW_DATA,$iv);
         return base64_encode($cryptText);
     }
-    
+
     /**
      * Transform the resource into an array.
      *
@@ -29,7 +29,7 @@ class QAResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'examId' => $this->examId,
+            'examId' => $this->examId, //change to exam_id
             'question' => $this->question,
             'ans_r' => $this->myEncrypt($this->ans_r, $myKey, $myIv),
             'ans_1' => $this->myEncrypt($this->ans_1, $myKey, $myIv),
@@ -37,6 +37,7 @@ class QAResource extends JsonResource
             'ans_3' => $this->myEncrypt($this->ans_3, $myKey, $myIv),
             'ans_4' => $this->myEncrypt($this->ans_4, $myKey, $myIv),
             'ans_5' => $this->myEncrypt($this->ans_5, $myKey, $myIv),
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];
     }
 }

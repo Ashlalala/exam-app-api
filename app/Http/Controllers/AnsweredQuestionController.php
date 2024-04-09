@@ -18,7 +18,8 @@ class AnsweredQuestionController extends Controller
      */
     public function index($startedExamId)
     {
-        return AnsweredQuestion::where('started_exam_id', '=', $startedExamId)->get();
+        return AnsweredQuestion::where('started_exam_id', '=', $startedExamId)
+            ->where('type', '=', 'full')->get();
     }
 
     /**

@@ -16,7 +16,10 @@ class CreateAnsweredQuestionsTable extends Migration
         Schema::create('answered_questions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('started_exam_id')->constrained('started_exams');
+            $table->foreignId('group_id')->nullable()->constrained('q_a_groups');
+            $table->foreignId('answered_group_id')->nullable()->constrained('answered_groups');
             $table->foreignId('qa_id')->constrained('q_a_s');
+            $table->string('type')->default('full');
             $table->longText('ans');
             $table->boolean('correct');
             $table->timestamps();
